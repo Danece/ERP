@@ -1,0 +1,14 @@
+.table  {
+  .table-dark {
+    th {
+      vertical-align: middle;
+    }
+  }
+  .table-content {
+    vertical-align: middle;
+  }
+  td:last-child {
+    text-align: center;
+  }
+}
+
