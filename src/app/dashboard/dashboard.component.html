@@ -1,0 +1,59 @@
+
+<div *ngIf="name">
+  <h2>{{ name }}</h2>
+  <div class="wrap">
+    <div class="left">
+      <p>性別 : {{ sex }}</p>
+      <p>生日 : {{ birthday }}</p>
+      <p>教育程度 : {{ education }}</p>
+    </div>
+    <div class="right">
+      <p>[ 自我介紹 ]</p>
+      <label>{{ introduce }}</label>
+    </div>
+  </div>
+</div>
+<div>
+  <canvas id="myChart"></canvas>
+</div>
+<br><br><br>
+<div *ngIf="0 < (items_experience | async)?.length;">
+  <div *ngFor="let item of items_experience | async; let i = index">
+    <table class="table_c">
+      <thead>
+          <tr>
+              <th colspan="2">
+                <label>第 {{ i+1 }} 份工作</label>
+              </th>
+          </tr>
+      </thead>
+      <tbody>
+        <tr>
+            <th>公司名稱</th>
+            <td>{{ item.Company }}</td>
+        </tr>
+        <tr>
+            <th>職稱</th>
+            <td>{{ item.Work }}</td>
+        </tr>
+        <tr>
+            <th>年資</th>
+            <td>{{ item.Seniority }} 個月</td>
+        </tr>
+        <tr>
+            <th>使用技術</th>
+            <td>{{ item.Learn }}</td>
+        </tr>
+        <tr>
+            <th>專案</th>
+            <td>{{ item.Project }}</td>
+        </tr>
+        <tr>
+            <th>離職原因</th>
+            <td>{{ item.ReasonForLeaving }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+  </div>
+</div>
