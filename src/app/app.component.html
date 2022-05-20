@@ -10,97 +10,28 @@
 <style>
 
 </style>
+<div style="text-align: center;">
+  <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist" style="display: inline-flex;">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">儀錶板</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">查詢</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">建立</button>
+    </li>
+  </ul>
+</div>
+<div class="tab-content" id="pills-tabContent">
+  <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab"><app-dashboard></app-dashboard></div>
+  <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab"><app-search></app-search></div>
+  <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">...</div>
+</div>
 <!-- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"> -->
 
 <!-- i18n -->
-<!-- <app-nav-bar></app-nav-bar> -->
-<div class="content container" role="main">
-  <div>
-    <table class="table">
-      <thead class="table-dark">
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Operator</th>
-          <th scope="col">Customer</th>
-          <th scope="col">Cost</th>
-          <th scope="col">Receive</th>
-          <th scope="col">Remark</th>
-          <th scope="col">Date</th>
-          <th>
-            <!-- <button class="btn btn-primary" type="button" (click)="addItem()">Add</button> -->
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
-              Launch demo modal
-            </button>
-          </th>
-        </tr>
-      </thead>
-      <tbody *ngFor="let item of items | async; let i = index">
-        <tr>
-          <th scope="row" class="table-content">{{ i+1 }}</th>
-          <td class="table-content">{{ item.Operator }}</td>
-          <td class="table-content">{{ item.Customer }}</td>
-          <td class="table-content">{{ item.Cost }}</td>
-          <td class="table-content">{{ item.Receive }}</td>
-          <td class="table-content">{{ item.Remark }}</td>
-          <td class="table-content">{{ item.Date.toDate() | date:'yyyy/MM/dd h:mm:ss a' }}</td>
-          <td class="table-content">
-            <button class="btn btn-danger" type="button" value="{{ item.eventId }}" (click)="deleteItem(item.eventId)">Del</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <!-- Footer -->
-  <footer>
-  </footer>
-  <!-- Modal -->
-  <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="addModalLabel">Create</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <form id="addfm" class="needs-validation" novalidate>
-          <div class="modal-body">
-              <div class="form-group">
-                <label>Name</label>:
-                <input type="text" class="form-control" placeholder="User Name" #addName required>
-                <div class="invalid-feedback">
-                  Please input a username.
-                </div>
-              </div>
-              <div class="form-group">
-                <label>Customer</label>:
-                <input type="text" class="form-control" placeholder="Company Name" #addCompany required>
-                <div class="invalid-feedback">
-                  Please input a company name.
-                </div>
-              </div>
-              <div class="form-group">
-                <label>Cost</label>:
-                <input type="text" class="form-control" placeholder="0" #addCost>
-              </div>
-              <div class="form-group">
-                <label>Receive</label>:
-                <input type="text" class="form-control" placeholder="0" #addReveive>
-              </div>
-              <div class="form-group">
-                <label>Remark</label>:
-                <input type="text" class="form-control" placeholder="..." #addRemark>
-              </div>
-          </div>
-          <div class="modal-footer">
-            <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
-            <button type="submit" class="btn btn-primary" (click)="addItem(addName.value, addCompany.value, addCost.value , addReveive.value, addRemark.value)">Save</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <!-- * * * * * * * * * * * The content above * * * * * * * * * * * -->
 <!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->

@@ -1,0 +1,80 @@
+
+    <table class="table">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">建單人</th>
+          <th scope="col">客戶</th>
+          <th scope="col">花費</th>
+          <th scope="col">收款</th>
+          <th scope="col">註記</th>
+          <th scope="col">日期</th>
+          <th>
+            <!-- <button class="btn btn-primary" type="button" (click)="addItem()">Add</button> -->
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
+              Launch demo modal
+            </button>
+          </th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let item of items | async; let i = index">
+        <tr>
+          <th scope="row" class="table-content">{{ i+1 }}</th>
+          <td class="table-content">{{ item.Operator }}</td>
+          <td class="table-content">{{ item.Customer }}</td>
+          <td class="table-content">{{ item.Cost }}</td>
+          <td class="table-content">{{ item.Receive }}</td>
+          <td class="table-content">{{ item.Remark }}</td>
+          <td class="table-content">{{ item.Date.toDate() | date:'yyyy/MM/dd h:mm:ss a' }}</td>
+          <td class="table-content">
+            <button class="btn btn-danger" type="button" value="{{ item.eventId }}" (click)="deleteItem(item.eventId)">Del</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+<!-- Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true" data-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addModalLabel">Create</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="addfm" class="needs-validation" novalidate>
+        <div class="modal-body">
+            <div class="form-group">
+              <label>Name</label>:
+              <input type="text" class="form-control" placeholder="User Name" #addName required>
+              <div class="invalid-feedback">
+                Please input a username.
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Customer</label>:
+              <input type="text" class="form-control" placeholder="Company Name" #addCompany required>
+              <div class="invalid-feedback">
+                Please input a company name.
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Cost</label>:
+              <input type="text" class="form-control" placeholder="0" #addCost>
+            </div>
+            <div class="form-group">
+              <label>Receive</label>:
+              <input type="text" class="form-control" placeholder="0" #addReveive>
+            </div>
+            <div class="form-group">
+              <label>Remark</label>:
+              <input type="text" class="form-control" placeholder="..." #addRemark>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+          <!-- <button type="submit" class="btn btn-primary" (click)="addItem(addName.value, addCompany.value, addCost.value , addReveive.value, addRemark.value)">Save</button> -->
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

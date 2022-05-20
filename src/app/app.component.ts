@@ -34,6 +34,39 @@ export class AppComponent {
     this.globalFunction = new GolbalFunction;
   }
 
+  ngOnInit() {
+    this.init();
+  }
+
+  init() {
+    console.log("IN");
+    let data = [];
+    data.push(['<input type="checkbox" name="userList" id="userList" value="<%=userName%>" style="margin:0px;">',1,2,3,4,5,6,7]);
+
+    $('#tableResultList').DataTable({
+      'data'			: data,
+      'columnDefs'	: [
+        {
+          'targets'		: [0,1,2,3,4,5,6,7],
+          'className'	: "text-center",
+        }
+      ],
+      'paging'      	: true,
+      'lengthChange'	: true,
+      'searching'   	: true,
+      'ordering'    	: true,
+      'info'        	: true,
+      'autoWidth'   	: false,
+      "oLanguage"		: {"sUrl":"../exjs/<%=getSessionLanguageFile_ForTableData(session)%>"},
+      'order'			: [[ 1, "asc" ]],
+      "bJQueryUI"		: true,
+      'iDisplayLength': 10,
+      'destroy'	  	: true,
+      'lengthMenu'	: [10, 25, 50, 100, 500]
+    });
+  }
+
+
   addItem(name: string, customer: string, cost: string, Receive: string, remark: string): boolean {
     console.log("result", this.globalFunction.checkoutRequiredValue(name));
     if (!this.globalFunction.checkoutRequiredValue(name) || !this.globalFunction.checkoutRequiredValue(customer)) {
