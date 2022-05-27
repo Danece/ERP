@@ -1,0 +1,34 @@
+<div *ngIf="0 < (items_project | async)?.length;">
+  <div *ngFor="let item of items_project | async; let i = index">
+    <table class="table_c">
+      <thead>
+          <tr>
+              <th>
+                <img *ngIf="'Pakapon' == item.Name" src="../assets/logos/pakapon.png">
+                <img *ngIf="'LINE貼圖 - 大橘龍' == item.Name" src="../assets/logos/orange.png">
+              </th>
+              <th>
+                <label>
+                  {{ item.Name }}
+                </label>
+              </th>
+          </tr>
+      </thead>
+      <tbody>
+        <tr>
+            <th>介紹</th>
+            <td>{{ item.Introduce }}</td>
+        </tr>
+        <tr>
+            <th>使用技術</th>
+            <td>{{ item.Technology }}</td>
+        </tr>
+        <tr>
+            <th>相關連結</th>
+            <td>{{ item.RelatedLinks }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+  </div>
+</div>

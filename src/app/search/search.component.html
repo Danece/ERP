@@ -3,76 +3,193 @@
       <thead class="table-dark">
         <tr>
           <th scope="col">#</th>
-          <th scope="col">建單人</th>
-          <th scope="col">客戶</th>
-          <th scope="col">花費</th>
-          <th scope="col">收款</th>
-          <th scope="col">註記</th>
-          <th scope="col">日期</th>
-          <th>
-            <!-- <button class="btn btn-primary" type="button" (click)="addItem()">Add</button> -->
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
-              Launch demo modal
+          <th scope="col">公司</th>
+          <th scope="col">職稱</th>
+          <th scope="col">年資</th>
+          <th scope="col">離職原因</th>
+          <th colspan="2">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pwdCheckModal" (click)="changeOperationInfo('', 'create')">
+              建立
             </button>
           </th>
         </tr>
       </thead>
-      <tbody *ngFor="let item of items | async; let i = index">
+      <tbody *ngFor="let item of items_experience | async; let i = index">
         <tr>
           <th scope="row" class="table-content">{{ i+1 }}</th>
-          <td class="table-content">{{ item.Operator }}</td>
-          <td class="table-content">{{ item.Customer }}</td>
-          <td class="table-content">{{ item.Cost }}</td>
-          <td class="table-content">{{ item.Receive }}</td>
-          <td class="table-content">{{ item.Remark }}</td>
-          <td class="table-content">{{ item.Date.toDate() | date:'yyyy/MM/dd h:mm:ss a' }}</td>
+          <td class="table-content">{{ item.Company }}</td>
+          <td class="table-content">{{ item.Work }}</td>
+          <td class="table-content">{{ item.Seniority }} 個月</td>
+          <td class="table-content">{{ item.ReasonForLeaving }}</td>
+          <!-- <td class="table-content">{{ item.Date.toDate() | date:'yyyy/MM/dd h:mm:ss a' }}</td> -->
           <td class="table-content">
-            <button class="btn btn-danger" type="button" value="{{ item.eventId }}" (click)="deleteItem(item.eventId)">Del</button>
+            <button class="btn btn-success" type="button" value="{{ item.eventId }}" data-bs-toggle="modal" data-bs-target="#pwdCheckModal"  (click)="changeOperationInfo(item.eventId, 'modify')">編輯</button>
+            <!-- <button class="btn btn-danger" style="margin-left: 10px;" type="button" value="{{ item.eventId }}" data-bs-toggle="modal" data-bs-target="#pwdCheckModal"  (click)="changeOperationInfo(item.eventId, 'delete')">刪除</button> -->
+          </td>
+          <td class="table-content">
+            <!-- <button class="btn btn-success" type="button" value="{{ item.eventId }}" data-bs-toggle="modal" data-bs-target="#pwdCheckModal"  (click)="changeOperationInfo(item.eventId, 'modify')">編輯</button> -->
+            <button class="btn btn-danger" type="button" value="{{ item.eventId }}" data-bs-toggle="modal" data-bs-target="#pwdCheckModal"  (click)="changeOperationInfo(item.eventId, 'delete')">刪除</button>
           </td>
         </tr>
       </tbody>
     </table>
 <!-- Modal -->
+<div class="modal fade" id="pwdCheckModal" tabindex="-1" aria-labelledby="pwdCheckModalLabel" aria-hidden="true" data-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="pwdCheckModalLabel">密碼驗證</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="checkoutfm" class="needs-validation" novalidate>
+        <div class="modal-body">
+            <div class="form-group">
+              <label>密碼</label>:
+              <input type="password" class="form-control" placeholder="Password" [(ngModel)]="pwdInput" name="pwdInput">
+              <div class="invalid-feedback">
+                Please input a password.
+              </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <label style="color: red; margin-right: 20px;" *ngIf="pwdInputErrorMsg">{{ pwdInputErrorMsg }}</label>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-danger" (click)="checkoutPwd()">驗證</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true" data-backdrop="static">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="addModalLabel">Create</h5>
+        <h5 class="modal-title" id="addModalLabel">建立新資料</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form id="addfm" class="needs-validation" novalidate>
         <div class="modal-body">
             <div class="form-group">
-              <label>Name</label>:
-              <input type="text" class="form-control" placeholder="User Name" #addName required>
+              <label>公司名稱</label>:
+              <input type="text" class="form-control" placeholder="User Name" #addCompany required>
               <div class="invalid-feedback">
-                Please input a username.
+                Can not be null.
               </div>
             </div>
             <div class="form-group">
-              <label>Customer</label>:
-              <input type="text" class="form-control" placeholder="Company Name" #addCompany required>
+              <label>職稱</label>:
+              <input type="text" class="form-control" placeholder="Company Name" #addWork required>
               <div class="invalid-feedback">
-                Please input a company name.
+                Can not be null.
               </div>
             </div>
             <div class="form-group">
-              <label>Cost</label>:
-              <input type="text" class="form-control" placeholder="0" #addCost>
+              <label>學習技術</label>:
+              <input type="text" class="form-control" placeholder="0" #addLearn required>
             </div>
             <div class="form-group">
-              <label>Receive</label>:
-              <input type="text" class="form-control" placeholder="0" #addReveive>
+              <label>年資</label>:
+              <input type="text" class="form-control" placeholder="0" #addSeniority required>
             </div>
             <div class="form-group">
-              <label>Remark</label>:
-              <input type="text" class="form-control" placeholder="..." #addRemark>
+              <label>專案</label>:
+              <input type="text" class="form-control" placeholder="..." #addProject required>
+            </div>
+            <div class="form-group">
+              <label>離職原因</label>:
+              <input type="text" class="form-control" placeholder="..." #addReasonForLeaving required>
             </div>
         </div>
         <div class="modal-footer">
-          <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
-          <!-- <button type="submit" class="btn btn-primary" (click)="addItem(addName.value, addCompany.value, addCost.value , addReveive.value, addRemark.value)">Save</button> -->
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-primary" (click)="addItem(addCompany.value, addWork.value, addLearn.value , addSeniority.value, addProject.value, addReasonForLeaving.value)">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" data-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">刪除資料</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="checkoutfm" class="needs-validation" novalidate>
+        <div class="modal-body">
+            <div class="form-group">
+              <label>是否刪除 UID : {{ selectedID }}</label>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <label style="color: red; margin-right: 20px;" *ngIf="pwdInputErrorMsg">{{ pwdInputErrorMsg }}</label>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-danger" (click)="deleteItem()">刪除</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modifyModal" tabindex="-1" aria-labelledby="modifyModalLabel" aria-hidden="true" data-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modifyModalLabel">編輯資料</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="modifyfm" class="needs-validation" novalidate>
+        <div class="modal-body" *ngFor="let item of items_experience | async; let i = index">
+            <div *ngIf="item.eventId == selectedID">
+              <div class="form-group">
+                <label>公司名稱</label>:
+                <input type="text" class="form-control" placeholder="User Name" value="{{ item.Company }}" #modifyCompany required>
+                <div class="invalid-feedback">
+                  必填
+                </div>
+              </div>
+              <div class="form-group">
+                <label>職稱</label>:
+                <input type="text" class="form-control" placeholder="Company Name" value="{{ item.Work }}" #modifyWork required>
+                <div class="invalid-feedback">
+                  必填
+                </div>
+              </div>
+              <div class="form-group">
+                <label>學習技術</label>:
+                <input type="text" class="form-control" placeholder="0" value="{{ item.Learn }}" #modifyLearn required>
+                <div class="invalid-feedback">
+                  必填
+                </div>
+              </div>
+              <div class="form-group">
+                <label>年資</label>:
+                <input type="text" class="form-control" placeholder="0" value="{{ item.Seniority}}" #modifySeniority required>
+                <div class="invalid-feedback">
+                  必填
+                </div>
+              </div>
+              <div class="form-group">
+                <label>專案</label>:
+                <input type="text" class="form-control" placeholder="..." value="{{ item.Project }}" #modifyProject required>
+                <div class="invalid-feedback">
+                  必填
+                </div>
+              </div>
+              <div class="form-group">
+                <label>離職原因</label>:
+                <input type="text" class="form-control" placeholder="..." value="{{ item.ReasonForLeaving }}" #modifyReasonForLeaving required>
+                <div class="invalid-feedback">
+                  必填
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                <button type="submit" class="btn btn-primary" (click)="modifyItem(modifyCompany.value, modifyWork.value, modifyLearn.value , modifySeniority.value, modifyProject.value, modifyReasonForLeaving.value)">Save</button>
+              </div>
+            </div>
         </div>
       </form>
     </div>

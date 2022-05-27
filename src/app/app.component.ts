@@ -18,14 +18,11 @@ export class AppComponent {
   title(title: any) {
     throw new Error('Method not implemented.');
   }
-  // items : Observable<any[]>;
-  // constructor(firestore: AngularFirestore) {
-  //   this.items = firestore.collection('SalesRecord').valueChanges();
-  // }
   private itemCollection: AngularFirestoreCollection<any>;
   private globalFunction: GolbalFunction;
   items: Observable<any[]>;
   private count = 0;
+  isLoading : boolean = true;
 
   constructor(private afs: AngularFirestore) {
     this.itemCollection = afs.collection<any>('SalesRecord');
@@ -34,12 +31,17 @@ export class AppComponent {
     this.globalFunction = new GolbalFunction;
   }
 
-  ngOnInit() {
-    this.init();
+  ngAfterViewInit(): void {
+    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
+
+    setTimeout(() =>{
+      console.log("TEST", "IN");
+      this.isLoading = false;
+    }, 5000);
   }
 
-  init() {
-    console.log("IN");
+  ngOnInit() {
     let data = [];
     data.push(['<input type="checkbox" name="userList" id="userList" value="<%=userName%>" style="margin:0px;">',1,2,3,4,5,6,7]);
 
@@ -65,37 +67,4 @@ export class AppComponent {
       'lengthMenu'	: [10, 25, 50, 100, 500]
     });
   }
-
-
-  addItem(name: string, customer: string, cost: string, Receive: string, remark: string): boolean {
-    console.log("result", this.globalFunction.checkoutRequiredValue(name));
-    if (!this.globalFunction.checkoutRequiredValue(name) || !this.globalFunction.checkoutRequiredValue(customer)) {
-      var form = document.getElementById('addfm');
-      if (null != form) form.classList.add('was-validated');
-      return false;
-    }
-    let item = {
-      Operator: name,
-      Customer: customer,
-      Cost: Number(cost),
-      Receive: Number(Receive),
-      Remark: remark,
-      Date: new Date()
-    };
-    this.itemCollection.add(item);
-
-    var modalBackdrops = document.querySelectorAll('.modal-backdrop');
-    Array.prototype.slice.call(modalBackdrops)
-    .forEach(function (modalBackdrop) {
-      modalBackdrop.remove();
-    })
-    $('#addModal').modal('hide');
-
-    return true;
-  }
-
-  deleteItem(ID: string) {
-    this.itemCollection.doc(ID).delete();
-  }
-
 }

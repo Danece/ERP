@@ -1,4 +1,4 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, OnInit } from '@angular/core';
 // import * as Chart from 'chart.js';
 import Chart from 'chart.js/auto';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
@@ -12,7 +12,7 @@ declare let $:any;
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements AfterViewInit {
+export class DashboardComponent implements OnInit {
   private itemCollection: AngularFirestoreCollection<any>;
   items: Observable<any>;
   private itemCollection_experience: AngularFirestoreCollection<any>;
@@ -23,6 +23,8 @@ export class DashboardComponent implements AfterViewInit {
   sex !: string;
   birthday !: string;
   education !: string;
+  habit !: string;
+  personality !: string;
   introduce !: string;
 
   constructor(private afs: AngularFirestore) {
@@ -38,10 +40,6 @@ export class DashboardComponent implements AfterViewInit {
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-
-  }
-
-  ngAfterViewInit() {
     // 基本個資
     this.items.subscribe(data => {
       let personalInfo = data[0];
@@ -50,6 +48,8 @@ export class DashboardComponent implements AfterViewInit {
       this.birthday = personalInfo.Birthday;
       this.education = personalInfo.Education;
       this.introduce = personalInfo.Introduce;
+      this.habit = personalInfo.Habit;
+      this.personality = personalInfo.Personality;
     });
 
     // 年資曲線圖
@@ -78,6 +78,7 @@ export class DashboardComponent implements AfterViewInit {
       }]
     };
 
+    // 隔1.5秒再去渲染曲線圖，因為讀取資料需要時間
     setTimeout(() =>{
       const myChart = new Chart(
         this.ctx,{

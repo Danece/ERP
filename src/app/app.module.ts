@@ -13,12 +13,14 @@ import { MaterialModule } from './shared/material.module';
 import { SharedModule } from './shared/shared.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SearchComponent } from './search/search.component';
+import { MyProjectComponent } from './my-project/my-project.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     SearchComponent,
+    MyProjectComponent,
     // NavBarComponent,
   ],
   imports: [
